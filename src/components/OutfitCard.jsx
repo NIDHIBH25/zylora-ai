@@ -27,16 +27,16 @@ const getOccasionImage = (occasion, index) => {
   return '/outfit_casual.png'; // fallback
 };
 
-export default function OutfitCard({ outfit, index }) {
+export default function OutfitCard({ outfit, index, imageUrl }) {
   const gradient = ACCENT_GRADIENTS[index % ACCENT_GRADIENTS.length];
   const badge = OCCASION_BADGES[outfit.occasion] || { bg: '#FBE4EC', color: '#A85A71' };
-  const imageUrl = getOccasionImage(outfit.occasion || '', index);
+  const finalImageUrl = imageUrl || getOccasionImage(outfit.occasion || '', index);
 
   return (
     <article className={styles.card} style={{ animationDelay: `${index * 0.15}s` }}>
       {/* Outfit Banner Image */}
       <div className={styles.imageContainer}>
-        <img src={imageUrl} alt={outfit.name} className={styles.cardImage} />
+        <img src={finalImageUrl} alt={outfit.name} className={styles.cardImage} />
         <div className={styles.imageOverlay} style={{ background: `linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 100%), ${gradient}22` }} />
       </div>
 
