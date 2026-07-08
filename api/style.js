@@ -29,13 +29,14 @@ export default async function handler(req, res) {
 
   const { gender, bodyType, skinTone, occasion, budget, stylePreferences } = req.body;
 
-  if (!process.env.ANTHROPIC_API_KEY || process.env.ANTHROPIC_API_KEY === 'your_anthropic_api_key_here') {
-    return res.status(500).json({ error: 'ANTHROPIC_API_KEY is not configured. Please add it to your .env file.' });
+  const githubToken = process.env.GITHUB;
+  const anthropicKey = process.env.ANTHROPIC_API_KEY;
+
+  if (!githubToken && (!anthropicKey || anthropicKey === 'your_anthropic_api_key_here')) {
+    return res.status(500).json({ error: 'Please configure GITHUB or ANTHROPIC_API_KEY in your .env file.' });
   }
 
   try {
-    const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
-
     const userPrompt = `Client Profile:
 - Gender Preference: ${gender}
 - Body Type: ${bodyType}
@@ -46,14 +47,41 @@ export default async function handler(req, res) {
 
 Please generate 3 personalized, complete outfit suggestions for this client.`;
 
-    const message = await client.messages.create({
-      model: 'claude-3-5-sonnet-20241022',
-      max_tokens: 2048,
-      system: SYSTEM_PROMPT,
-      messages: [{ role: 'user', content: userPrompt }],
-    });
+    let raw;
+    if (githubToken) {
+      const response = await fetch('https://models.inference.ai.azure.com/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${githubToken}`
+        },
+        body: JSON.stringify({
+          messages: [
+            { role: 'system', content: SYSTEM_PROMPT },
+            { role: 'user', content: userPrompt }
+          ],
+          model: 'gpt-4o-mini',
+          max_tokens: 2048
+        })
+      });
 
-    const raw = message.content[0].text.trim();
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`GitHub Models API error: ${response.status} - ${errorText}`);
+      }
+
+      const result = await response.json();
+      raw = result.choices[0].message.content.trim();
+    } else {
+      const client = new Anthropic({ apiKey: anthropicKey });
+      const message = await client.messages.create({
+        model: 'claude-3-5-sonnet-20241022',
+        max_tokens: 2048,
+        system: SYSTEM_PROMPT,
+        messages: [{ role: 'user', content: userPrompt }]
+      });
+      raw = message.content[0].text.trim();
+    }
     const jsonMatch = raw.match(/\{[\s\S]*\}/);
     if (!jsonMatch) throw new Error('No JSON found in response');
 
