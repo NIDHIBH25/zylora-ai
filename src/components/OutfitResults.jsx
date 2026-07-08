@@ -3,19 +3,93 @@ import ChatBox from './ChatBox';
 import styles from './OutfitResults.module.css';
 
 const images = [
-  { id: 'casual', url: '/outfit_casual.png', keywords: ['casual', 'athleisure', 'denim', 'jeans', 't-shirt', 'tee', 'sneakers', 'errands', 'shorts', 'loungewear', 'flat', 'sporty', 'joggers', 'sweatpants', 'hoodie', 'brunch', 'everyday', 'daily', 'walk', 'simple'] },
-  { id: 'work', url: '/outfit_work.png', keywords: ['work', 'office', 'corporate', 'blazer', 'trousers', 'formal', 'shirt', 'pantsuit', 'meeting', 'interview', 'smart casual', 'pencil', 'trousers', 'blouse', 'tuck', 'professional'] },
-  { id: 'party', url: '/outfit_party.png', keywords: ['party', 'night', 'club', 'glam', 'sequin', 'shimmer', 'metallic', 'cocktail', 'concert', 'dance', 'heels', 'glitter', 'sparkle', 'bling', 'bold'] },
-  { id: 'date', url: '/outfit_date.png', keywords: ['date', 'romantic', 'dinner', 'maxi', 'skirt', 'dress', 'floral', 'chic', 'bohemian', 'boho', 'brunch', 'midi', 'cowl', 'sweetheart', 'ruffle', 'wrap dress'] },
-  { id: 'festive', url: '/outfit_festive.png', keywords: ['festive', 'traditional', 'wedding', 'ethnic', 'diwali', 'kurta', 'lehenga', 'anarkali', 'sharara', 'jhumkas', 'dupatta', 'salwar', 'kurtis', 'embroidery', 'juti', 'festivals'] },
-  { id: 'saree', url: '/outfit_saree.png', keywords: ['saree', 'sari', 'drape', 'ethnic', 'silk', 'traditional', 'wedding', 'festive', 'temple', 'pallu', 'blouse'] }
+  {
+    id: 'saree',
+    url: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&auto=format&fit=crop&q=80',
+    keywords: ['saree', 'sari', 'drape', 'silk saree', 'ethnic saree']
+  },
+  {
+    id: 'kurta',
+    url: 'https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=600&auto=format&fit=crop&q=80',
+    keywords: ['kurta', 'kurtis', 'anarkali', 'salwar', 'sharara', 'ethnic suit', 'kurtas']
+  },
+  {
+    id: 'lehenga',
+    url: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=600&auto=format&fit=crop&q=80',
+    keywords: ['lehenga', 'choli', 'ghagra', 'ethnic lehenga', 'festive lehenga']
+  },
+  {
+    id: 'athleisure',
+    url: 'https://images.unsplash.com/photo-1518310383802-640c2de311b2?w=600&auto=format&fit=crop&q=80',
+    keywords: ['athleisure', 'tracksuit', 'joggers', 'activewear', 'sporty', 'sweatpants', 'hoodie', 'sneakers']
+  },
+  {
+    id: 'denim_dress',
+    url: 'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=600&auto=format&fit=crop&q=80',
+    keywords: ['denim dress', 'denim jacket', 'jean jacket', 'denim skirt', 'chambray']
+  },
+  {
+    id: 'jeans_casual',
+    url: 'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=600&auto=format&fit=crop&q=80',
+    keywords: ['jeans', 'denim pants', 'denim trousers', 'casual pants', 'chinos']
+  },
+  {
+    id: 'boho_maxi',
+    url: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?w=600&auto=format&fit=crop&q=80',
+    keywords: ['maxi', 'skirt', 'bohemian', 'boho', 'tier', 'brunch', 'tee', 'maxi skirt']
+  },
+  {
+    id: 'tshirt_casual',
+    url: 'https://images.unsplash.com/photo-1554568218-0f1715e72254?w=600&auto=format&fit=crop&q=80',
+    keywords: ['t-shirt', 'tee', 'tshirt', 'casual top']
+  },
+  {
+    id: 'floral_dress',
+    url: 'https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?w=600&auto=format&fit=crop&q=80',
+    keywords: ['dress', 'floral', 'summer dress', 'sundress', 'romantic', 'date']
+  },
+  {
+    id: 'blazer_work',
+    url: 'https://images.unsplash.com/photo-1548624149-f7b31668831a?w=600&auto=format&fit=crop&q=80',
+    keywords: ['blazer', 'suit', 'jacket', 'pantsuit', 'workwear', 'office', 'corporate', 'formal']
+  },
+  {
+    id: 'pants_work',
+    url: 'https://images.unsplash.com/photo-1485968579580-b6d095142e6e?w=600&auto=format&fit=crop&q=80',
+    keywords: ['trousers', 'pants', 'shirt', 'blouse', 'professional', 'smart casual', 'formal trousers']
+  },
+  {
+    id: 'party_glam',
+    url: 'https://images.unsplash.com/photo-1566174053879-31528523f8ae?w=600&auto=format&fit=crop&q=80',
+    keywords: ['party', 'glam', 'sequin', 'shimmer', 'metallic', 'cocktail', 'club']
+  },
+  {
+    id: 'black_dress',
+    url: 'https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=600&auto=format&fit=crop&q=80',
+    keywords: ['black dress', 'lbd', 'night out', 'party dress']
+  },
+  {
+    id: 'coord_set',
+    url: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&auto=format&fit=crop&q=80',
+    keywords: ['co-ord', 'matching', 'set', 'jumpsuit', 'romper', 'two-piece']
+  },
+  {
+    id: 'warm_casual',
+    url: 'https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=600&auto=format&fit=crop&q=80',
+    keywords: ['sweater', 'cardigan', 'knit', 'jacket', 'winter', 'warm', 'pullover']
+  }
 ];
 
 const negativeKeywords = {
-  saree: ['jeans', 'denim', 't-shirt', 'tee', 'shorts', 'athleisure', 'sneakers', 'blazer', 'trousers', 'pantsuit', 'joggers', 'hoodie', 'sporty'],
-  festive: ['jeans', 'denim', 't-shirt', 'tee', 'shorts', 'athleisure', 'sneakers', 'blazer', 'trousers', 'pantsuit', 'joggers', 'hoodie', 'sporty'],
-  work: ['saree', 'sari', 'lehenga', 'anarkali', 'sharara', 'traditional', 'wedding', 'festive'],
-  party: ['corporate', 'office', 'interview', 'workwear'],
+  saree: ['jeans', 'denim', 't-shirt', 'tee', 'shorts', 'athleisure', 'sneakers', 'blazer', 'trousers', 'pantsuit', 'joggers', 'hoodie', 'sporty', 'jacket', 'cardigan', 'sweater'],
+  kurta: ['saree', 'jeans', 'blazer', 'pantsuit', 'athleisure', 'sneakers', 'shorts'],
+  lehenga: ['saree', 'jeans', 'blazer', 'pantsuit', 'athleisure', 'sneakers', 'shorts'],
+  athleisure: ['saree', 'kurta', 'lehenga', 'blazer', 'pantsuit', 'dress', 'skirt', 'blouse'],
+  denim_dress: ['saree', 'kurta', 'lehenga', 'blazer', 'pantsuit', 'trousers'],
+  jeans_casual: ['saree', 'kurta', 'lehenga', 'dress', 'skirt'],
+  boho_maxi: ['saree', 'kurta', 'lehenga', 'blazer', 'pantsuit', 'jeans', 'trousers'],
+  blazer_work: ['saree', 'kurta', 'lehenga', 'jeans', 'shorts', 'athleisure', 'sneakers'],
+  party_glam: ['office', 'workwear', 'saree', 'kurta'],
 };
 
 function getMatchScore(outfit, img) {
